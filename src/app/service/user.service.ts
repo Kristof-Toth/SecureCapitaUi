@@ -6,6 +6,7 @@ import {
 import { Injectable } from '@angular/core';
 import { CustomHttpResponse, Profile } from '../interface/appstates';
 import { catchError, Observable, tap, throwError } from 'rxjs';
+import { User } from '../interface/user';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +29,20 @@ export class UserService {
         .get<CustomHttpResponse<Profile>>(
           `${this.server}/user/verify/code/${email}/${code}`
         )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  profile$ = () =>
+    <Observable<CustomHttpResponse<Profile>>>(
+      this.http
+        .get<CustomHttpResponse<Profile>>(`${this.server}/user/profile`)
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  update$ = (user: User) =>
+    <Observable<CustomHttpResponse<Profile>>>(
+      this.http
+        .patch<CustomHttpResponse<Profile>>(`${this.server}/user/update`, user)
         .pipe(tap(console.log), catchError(this.handleError))
     );
 

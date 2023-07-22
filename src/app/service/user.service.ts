@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { CustomHttpResponse, Profile } from '../interface/appstates';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { User } from '../interface/user';
+import { Key } from '../enum/key.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +46,22 @@ export class UserService {
         .patch<CustomHttpResponse<Profile>>(`${this.server}/user/update`, user)
         .pipe(tap(console.log), catchError(this.handleError))
     );
+
+  refreshToken$ = () => <Observable<CustomHttpResponse<Profile>>>this.http
+      .get<CustomHttpResponse<Profile>>(`${this.server}/user/refresh/token`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(Key.REFRESH_TOKEN)}`,
+        },
+      })
+      .pipe(
+        tap((response) => {
+          localStorage.removeItem(Key.TOKEN);
+          localStorage.removeItem(Key.REFRESH_TOKEN);
+          localStorage.setItem(Key.TOKEN, response.data.access_token);
+          localStorage.setItem(Key.REFRESH_TOKEN, response.data.refresh_token);
+        }),
+        catchError(this.handleError)
+      );
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage: string;

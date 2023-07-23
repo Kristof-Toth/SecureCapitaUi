@@ -63,6 +63,20 @@ export class UserService {
         catchError(this.handleError)
       );
 
+  updatePassword$ = (form: {
+    currentPassword: string;
+    newPassword: string;
+    confirmNewPassword: string;
+  }) =>
+    <Observable<CustomHttpResponse<Profile>>>(
+      this.http
+        .patch<CustomHttpResponse<Profile>>(
+          `${this.server}/user/update/password`,
+          form
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage: string;
     if (error.error instanceof ErrorEvent) {

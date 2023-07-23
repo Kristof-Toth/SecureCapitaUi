@@ -67,11 +67,47 @@ export class ProfileComponent implements OnInit {
       catchError((error: string) => {
         this.isLoadingSubject.next(false);
         return of({
-          dataState: DataState.ERROR,
+          dataState: DataState.LOADED,
           appData: this.dataSubject.value,
           error,
         });
       })
     );
+  }
+
+  updatePassword(passwordForm: NgForm): void {
+    this.isLoadingSubject.next(true);
+    if (
+      passwordForm.value.newPassword === passwordForm.value.confirmNewPassword
+    ) {
+      console.log(passwordForm);
+      this.profileState$ = this.userService
+        .updatePassword$(passwordForm.value)
+        .pipe(
+          map((response) => {
+            console.log(response);
+            this.isLoadingSubject.next(false);
+            return {
+              dataState: DataState.LOADED,
+              appData: this.dataSubject.value,
+            };
+          }),
+          startWith({
+            dataState: DataState.LOADED,
+            appData: this.dataSubject.value,
+          }),
+          catchError((error: string) => {
+            this.isLoadingSubject.next(false);
+            return of({
+              dataState: DataState.LOADED,
+              appData: this.dataSubject.value,
+              error,
+            });
+          })
+        );
+    } else {
+      passwordForm.reset();
+      this.isLoadingSubject.next(false);
+    }
   }
 }

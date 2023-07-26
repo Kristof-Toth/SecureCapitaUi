@@ -9,6 +9,7 @@ import {
   startWith,
 } from 'rxjs';
 import { DataState } from 'src/app/enum/datastate.enum';
+import { EventType } from 'src/app/enum/event-type.enum';
 import { CustomHttpResponse, Profile } from 'src/app/interface/appstates';
 import { State } from 'src/app/interface/state';
 import { UserService } from 'src/app/service/user.service';
@@ -23,7 +24,10 @@ export class ProfileComponent implements OnInit {
   private dataSubject = new BehaviorSubject<CustomHttpResponse<Profile>>(null);
   private isLoadingSubject = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoadingSubject.asObservable();
+  private showLogSubject = new BehaviorSubject<boolean>(false);
+  showLog$ = this.showLogSubject.asObservable();
   readonly DataState = DataState;
+  readonly EventType = EventType;
 
   constructor(private userService: UserService) {}
 
@@ -86,6 +90,8 @@ export class ProfileComponent implements OnInit {
         .pipe(
           map((response) => {
             console.log(response);
+            this.dataSubject.next({ ...response, data: response.data });
+            passwordForm.reset();
             this.isLoadingSubject.next(false);
             return {
               dataState: DataState.LOADED,
@@ -237,6 +243,11 @@ export class ProfileComponent implements OnInit {
         );
     }
   }
+
+  toggleLogs(): void {
+    this.showLogSubject.next(!this.showLogSubject.value);
+  }
+
   private getFormData(image: File): FormData {
     const formData = new FormData();
     formData.append('image', image);

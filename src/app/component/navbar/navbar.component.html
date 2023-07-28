@@ -37,12 +37,11 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown"
             aria-expanded="false">
-            <img src="https://img.freepik.com/free-icon/user_318-159711.jpg" alt="john"
-              class="user-avatar rounded-circle"></a>
+            <img [src]="user?.imageUrl" [alt]="user?.firstName" class="user-avatar rounded-circle"></a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
             <li><a class="dropdown-item" [routerLink]="['/profile']"><i style="padding-right: 8px;"
-                  class="bi bi-person-circle"></i>John Smith</a></li>
-            <li style="cursor: pointer;"><a class="dropdown-item"><i style="padding-right: 8px;"
+                  class="bi bi-person-circle"></i>{{user?.firstName}} {{user?.lastName}}</a></li>
+            <li style="cursor: pointer;"><a class="dropdown-item" (click)="logOut()"><i style="padding-right: 8px;"
                   class="bi bi-box-arrow-in-right"></i>Logout</a></li>
           </ul>
         </li>

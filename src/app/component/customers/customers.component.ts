@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
   BehaviorSubject,
   catchError,
@@ -14,7 +15,6 @@ import { Customer } from 'src/app/interface/customer';
 import { State } from 'src/app/interface/state';
 import { User } from 'src/app/interface/user';
 import { CustomerService } from 'src/app/service/customer.service';
-import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-customers',
@@ -35,7 +35,7 @@ export class CustomersComponent implements OnInit {
   readonly DataState = DataState;
 
   constructor(
-    private userService: UserService,
+    private router: Router,
     private customerService: CustomerService
   ) {}
 
@@ -121,5 +121,7 @@ export class CustomersComponent implements OnInit {
     );
   }
 
-  selectCustomer(customer: Customer): void {}
+  selectCustomer(customer: Customer): void {
+    this.router.navigate([`/customers/${customer.id}`]);
+  }
 }

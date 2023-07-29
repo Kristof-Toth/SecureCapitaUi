@@ -1,6 +1,11 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CustomHttpResponse, Page, Profile } from '../interface/appstates';
+import {
+  CustomerState,
+  CustomHttpResponse,
+  Page,
+  Profile,
+} from '../interface/appstates';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { User } from '../interface/user';
 import { Stats } from '../interface/stats';
@@ -18,6 +23,25 @@ export class CustomerService {
       this.http
         .get<CustomHttpResponse<Page & User & Stats>>(
           `${this.server}/customer/list?page=${page}`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  customer$ = (customerId: number) =>
+    <Observable<CustomHttpResponse<CustomerState>>>(
+      this.http
+        .get<CustomHttpResponse<CustomerState>>(
+          `${this.server}/customer/get/${customerId}`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  update$ = (customer: Customer) =>
+    <Observable<CustomHttpResponse<CustomerState>>>(
+      this.http
+        .put<CustomHttpResponse<CustomerState>>(
+          `${this.server}/customer/update`,
+          customer
         )
         .pipe(tap(console.log), catchError(this.handleError))
     );

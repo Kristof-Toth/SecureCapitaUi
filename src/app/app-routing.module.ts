@@ -51,7 +51,7 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard],
   },
   {
-    path: 'customer/:id',
+    path: 'customers/:id',
     component: CustomerComponent,
     canActivate: [AuthenticationGuard],
   },

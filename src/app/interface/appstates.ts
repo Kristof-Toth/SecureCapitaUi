@@ -38,3 +38,8 @@ export interface Page {
   size: number;
   number: number;
 }
+
+export interface CustomerState {
+  user: User;
+  customer: Customer;
+}

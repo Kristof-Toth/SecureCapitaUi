@@ -10,6 +10,7 @@ import { catchError, Observable, tap, throwError } from 'rxjs';
 import { User } from '../interface/user';
 import { Stats } from '../interface/stats';
 import { Customer } from '../interface/customer';
+import { Invoice } from '../interface/invoice';
 
 @Injectable({
   providedIn: 'root',
@@ -61,6 +62,25 @@ export class CustomerService {
         .post<CustomHttpResponse<Customer & User>>(
           `${this.server}/customer/create`,
           customer
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  newInvoice$ = () =>
+    <Observable<CustomHttpResponse<Customer[] & User>>>(
+      this.http
+        .get<CustomHttpResponse<Customer[] & User>>(
+          `${this.server}/customer/invoice/new`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  createInvoice$ = (customerId: number, invoice: Invoice) =>
+    <Observable<CustomHttpResponse<Customer[] & User>>>(
+      this.http
+        .post<CustomHttpResponse<Customer[] & User>>(
+          `${this.server}/customer/invoice/addtocustomer/${customerId}`,
+          invoice
         )
         .pipe(tap(console.log), catchError(this.handleError))
     );

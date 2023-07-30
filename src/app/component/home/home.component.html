@@ -62,7 +62,8 @@
                 <li [ngClass]="0 == (currentPage$ | async) ? ' disabled' : ''" class="page-item pointer">
                   <a (click)="goToNextOrPreviousPage('backward')" class="page-link">&laquo; Prev</a>
                 </li>
-                <li *ngFor="let pageNumber of [].constructor(state?.appData?.data?.page.totalPages); let i = index;"
+                <li
+                  *ngFor="let pageNumber of state?.appData?.data?.page.totalPages | ExtractArrayValue: 'number'; let i = index;"
                   class="page-item pointer">
                   <a (click)="goToPage(i)" [ngClass]="i == (currentPage$ | async) ? ' active' : ''"
                     class="page-link">{{i + 1}}</a>

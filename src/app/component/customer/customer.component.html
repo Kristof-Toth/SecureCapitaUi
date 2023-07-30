@@ -58,7 +58,7 @@
                     style="font-size: 20px;">
                     Total Billed
                     <span class="badge bg-success" style="font-size: 20px;">
-                      $ {{ state?.appData?.data?.customer.invoices.length }}
+                      $ {{ state?.appData?.data?.customer.invoices | ExtractArrayValue: 'invoices' }}
                     </span>
                   </li>
                 </ul>

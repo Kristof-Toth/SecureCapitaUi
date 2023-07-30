@@ -21,10 +21,10 @@ import { CustomerService } from 'src/app/service/customer.service';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  homeState$: Observable<State<CustomHttpResponse<Page & User>>>;
-  private dataSubject = new BehaviorSubject<CustomHttpResponse<Page & User>>(
-    null
-  );
+  homeState$: Observable<State<CustomHttpResponse<Page<Customer> & User>>>;
+  private dataSubject = new BehaviorSubject<
+    CustomHttpResponse<Page<Customer> & User>
+  >(null);
   private isLoadingSubject = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoadingSubject.asObservable();
   private currentPageSubject = new BehaviorSubject<number>(0);

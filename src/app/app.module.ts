@@ -20,6 +20,7 @@ import { NewcustomerComponent } from './component/newcustomer/newcustomer.compon
 import { NewinvoiceComponent } from './component/newinvoice/newinvoice.component';
 import { InvoicesComponent } from './component/invoices/invoices.component';
 import { InvoiceComponent } from './component/invoice/invoice.component';
+import { ExtractArrayValue } from './pipes/extractvalue.pipe';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { InvoiceComponent } from './component/invoice/invoice.component';
     NewinvoiceComponent,
     InvoicesComponent,
     InvoiceComponent,
+    ExtractArrayValue,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [

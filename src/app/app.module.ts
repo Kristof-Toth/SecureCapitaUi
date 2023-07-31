@@ -21,6 +21,7 @@ import { NewinvoiceComponent } from './component/newinvoice/newinvoice.component
 import { InvoicesComponent } from './component/invoices/invoices.component';
 import { InvoiceComponent } from './component/invoice/invoice.component';
 import { ExtractArrayValue } from './pipes/extractvalue.pipe';
+import { CacheInterceptor } from './interceptor/cache.interceptor';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ExtractArrayValue } from './pipes/extractvalue.pipe';
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
